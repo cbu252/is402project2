@@ -2,16 +2,39 @@
     ViewBag.Title = "Contact";
 }
 <h2>@ViewBag.Title.</h2>
-<h3>@ViewBag.Message</h3>
+<div class="row">
+    <div class="col-md-6">
+        <img class="thumbnail" src="~/Content/Images/south franklin.png" />
+    </div>
+    <div class="col-md-6" align="center">
+        @using (Html.BeginForm())
+        {
+            <div class="form-horizontal">
+                <h3>Send us a Message</h3>
+                <div class="form-group">
 
+                    <label for="inputName" class="sr-only">Name</label>
+                    @Html.TextBox("Name", "", new { type = "name", id = "inputName", @class = "form-control", placeholder = "Name", required = true, autofocus = true })
+                    <label for="inputEmail" class="sr-only">Email Address</label>
+                    @Html.TextBox("Email address", "", new { type = "email", id = "inputEmail", @class = "form-control", placeholder = "Email Address", required = true, autofocus = true })
+                    <p>@Html.DropDownList("Subjects", null, new { type = "subject", id = "inputSubject", @class = "form-control", placeholder = "Subject", required = true, autofocus = true })</p>
+                    <label for="inputEmail" class="sr-only">Message</label>
+                    <p>@Html.TextArea("Message", null, new { type = "message", id = "inputMessage", @class = "form-control", placeholder = "Message", required = true, autofocus = true })</p>
+                    <input type="submit" class="btn btn-primary" value="Submit" />
+
+                </div>
+            </div>
+        }
+    </div>
+</div>
+<br />
+<br />
 <address>
-    One Microsoft Way<br />
-    Redmond, WA 98052-6399<br />
-    <abbr title="Phone">P:</abbr>
-    425.555.0100
+    770 S 700 W<br />
+    Provo, UT 84601<br />
+    801-374-2588
 </address>
-
 <address>
-    <strong>Support:</strong>   <a href="mailto:Support@example.com">Support@example.com</a><br />
-    <strong>Marketing:</strong> <a href="mailto:Marketing@example.com">Marketing@example.com</a>
+    Email:   <a href="mailto:spencerwood9@gmail.com">southfranklin@unitedwayuc.org</a><br />
+</address>
 </address>
