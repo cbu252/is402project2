@@ -22,7 +22,14 @@ namespace is402project2.Controllers
 
         public ActionResult Contact()
         {
-            ViewBag.Message = "Your contact page.";
+            List<SelectListItem> subjectOpts = new List<SelectListItem>();
+
+            subjectOpts.Add(new SelectListItem { Text = "(Subject)", Value = "0", Selected = true });
+            subjectOpts.Add(new SelectListItem { Text = "Questions about programs", Value = "1" });
+            subjectOpts.Add(new SelectListItem { Text = "Questions about volunteers", Value = "2" });
+            subjectOpts.Add(new SelectListItem { Text = "Other questions", Value = "3" });
+
+            ViewBag.Subjects = subjectOpts;
 
             return View();
         }
