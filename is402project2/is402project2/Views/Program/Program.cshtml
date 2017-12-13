@@ -1,0 +1,23 @@
+﻿
+@{
+    ViewBag.Title = "Program";
+}
+
+<h2>Program</h2>
+
+@using (Html.BeginForm("ProgramView", "Program"))
+{
+    <fieldset>
+        Program
+        @Html.DropDownList("ProgramList")
+        <p>
+            <br />
+            <br />
+            <input class="btn btn-primary" type="submit" value="Submit" />
+        </p>
+    </fieldset>
+}
+
+
+
+

@@ -1,0 +1,189 @@
+﻿<style>
+    button.accordion {
+        background-color: #eee;
+        color: #444;
+        cursor: pointer;
+        padding: 18px;
+        width: 100%;
+        border: none;
+        text-align: left;
+        outline: none;
+        font-size: 15px;
+        transition: 0.4s;
+    }
+
+        button.accordion.active, button.accordion:hover {
+            background-color: #ccc;
+        }
+
+    div.panel {
+        padding: 0 18px;
+        display: none;
+        background-color: white;
+    }
+</style>
+
+
+<!--BreadCrumb Menu-->
+<ul class="breadcrumb" style="background-color:#9b8468; opacity:0.7">
+    <li><a style="color:black" href="@Url.Action("Program", "Program")">Return to Programs Menu</a></li>
+</ul>
+
+<h2><b>@ViewBag.ProName's FAQ's</b></h2>
+
+<hr />
+
+<!--Information About the program-->
+<div class="row">
+    <div class="col-md-6 col-sm-6 col-lg-6" align="center">
+        <br />
+        <img src="~/Content/Images/@(ViewBag.ProName).jpg" style="width:300px;" />
+    </div>
+
+    <div class="col-md-6 col-sm-6 col-lg-6">
+        <p>
+            <h4>Program Description:</h4>
+            @ViewBag.ProDesc
+        </p>
+        <p>
+            <ul>
+                <li>@ViewBag.WeekdayTime.</li>
+                <li>This class is available for @ViewBag.AgeGroup.</li>
+                <li>@ViewBag.InternName is the intern over @ViewBag.ProName and will be able to answer any questions you have.</li>
+            </ul>
+            If you have any questions regarding volunteering for this program or becoming a participant please leave a comment below
+            in our comment box and @ViewBag.InternName will get back to you as soon as possible. Thanks!
+
+        </p>
+    </div>
+</div>
+
+<hr />
+
+<!-- FAQ -->
+<button class="accordion" style="background-color:#9b8468; opacity:0.7"> Who can come to this program?</button>
+<div class="panel">
+    <p>This class is available for @ViewBag.AgeGroup. We are excited to see you there!</p>
+</div>
+
+<button class="accordion" style="background-color:#9b8468; opacity:0.7"> Can I bring a friend to this class?</button>
+<div class="panel">
+    <p>
+        Yes! We love to see new people at our programs. After the class if your friend would like to sign up to come again take them to office and
+        inters will help them sign up for the program.
+    </p>
+</div>
+
+<button class="accordion" style="background-color:#9b8468; opacity:0.7"> Who should I contact if I have questions about this program?</button>
+<div class="panel">
+    <p>
+        If you have any questions please feel free to contact @ViewBag.InternName
+        at 555-555-5555. @ViewBag.InternName is the intern over @ViewBag.ProName and will be able to answer any questions you have.
+    </p>
+</div>
+
+<button class="accordion" style="background-color:#9b8468; opacity:0.7"> What if I want to volunteer for this program?</button>
+<div class="panel">
+    <p>
+        We are constantly on the search for new volunteers. If you would like to be a volunteer please fill out the form below and we will contact you
+        to confirm you schedule. Thank you for being willing to share your talents with others! Together we can make a difference in this community.
+    </p>
+</div>
+
+<button class="accordion" style="background-color:#9b8468; opacity:0.7">What is the purpose of the SFCC - South Franklin Community Center? </button>
+<div class="panel">
+    <p>
+        The South Franklin Community Center works to increase the quality of life in the South Franklin neighborhood by:
+        <ul>
+            <li>Providing access to programs that promote individual growth and achievement.</li>
+            <li> Encouraging community participation and leadership.</li>
+            <li> Offering opportunities for residents to become more invested and connected.</li>
+            <li> The South Franklin Community Center is a collaborative effort to help with the development of the South Franklin Neighborhood.  We rely heavily on volunteers and donors in order to operate.</li>
+        </ul>
+    </p>
+</div>
+
+<button class="accordion" style="background-color:#9b8468; opacity:0.7">What is the vision of the SFCC? </button>
+<div class="panel">
+    <p>
+        The South Franklin Community Center envisions a vibrant community in which families have resources, opportunity, and a feeling of community here in South Provo’s Boulders neighborhood.
+    </p>
+</div>
+
+<script>
+    var acc = document.getElementsByClassName("accordion");
+    var i;
+
+    for (i = 0; i < acc.length; i++) {
+        acc[i].onclick = function () {
+            this.classList.toggle("active");
+            var panel = this.nextElementSibling;
+            if (panel.style.display === "block") {
+                panel.style.display = "none";
+            } else {
+                panel.style.display = "block";
+            }
+        }
+    }
+</script>
+
+<br />
+
+<!--Form for Questions and Responses-->
+<div class="row">
+    <div class="col-md-6 col-sm-6 col-lg-6" align="center">
+        <br /><br />
+        <h2>Questions or Concerns?</h2>
+        <h3>Please leave a comment below and one of our interns will reply.</h3>
+    </div>
+    <div class="col-md-6 col-sm-6 col-lg-6" align="center">
+        <br /><br />
+        <img src="~/Content/Images/SFCCLogo.png" style="width:300px;" class="thumbnail" />
+    </div>
+</div>
+
+<br /><br />
+
+<div class="row">
+    <div class="col-md-6 col-sm-6 col-lg-6" align="center">
+
+        <!--(Html.BeginForm("Comment", "Program", FormMethod.Post))-->
+
+        @using (Html.BeginForm())
+        {
+
+            <label for="inputComment" class="sr-only">Comment</label>
+            @Html.TextArea("Comment", "", new { placeholder = "Please Comment Here....", style = "height: 100px; width: 800px;" })
+            <br />
+            <input class="btn btn-sm btn-primary btn-block" type="submit" value="Comment" />
+            <br />
+            <input class="btn btn-sm btn-primary btn-block" type="submit" value="Relply to this Comment" />
+
+        }
+
+
+    </div>
+</div>
+
+<!--Footer-->
+<div class="container body-content">
+    <hr />
+    <footer class="myFooterText" align="center">
+        <p><b>South Franklin Community Center Address</b></p>
+        <p>770 S 700 W, Provo, UT 84601</p>
+    </footer>
+</div>
+
+
+
+
+
+
+here are your parameters:
+@{/*
+                    Viewbag.ProName;
+                    Viewbag.InternName;
+                    Viewbag.AgeGroup;
+                    Viewbag.WeekdayTime;
+                    Viewbag.ProDesc;*/
+}

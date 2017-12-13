@@ -204,6 +204,14 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Images\Capture.PNG" />
+    <Content Include="Content\Images\Music.jpg" />
+    <Content Include="Content\Images\Personal Finance.jpg" />
+    <Content Include="Content\Images\seamlesstexture7_1200.jpg" />
+    <Content Include="Content\Images\SFCCLogo.png" />
+    <Content Include="Content\Images\south franklin.png" />
+    <Content Include="Content\Images\Zumba.jpg" />
+    <Content Include="Content\myStyle.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -258,6 +266,8 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Program\Program.cshtml" />
+    <Content Include="Views\Program\ProgramView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
