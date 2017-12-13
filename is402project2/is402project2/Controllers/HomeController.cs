@@ -6,6 +6,7 @@ using System.Web.Mvc;
 
 namespace is402project2.Controllers
 {
+    [RequireHttps]
     public class HomeController : Controller
     {
         public ActionResult Index()
