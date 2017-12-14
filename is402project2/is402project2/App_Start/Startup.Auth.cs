@@ -58,11 +58,11 @@ namespace is402project2
             //   appId: "",
             //   appSecret: "");
 
-            //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
-            //{
-            //    ClientId = "",
-            //    ClientSecret = ""
-            //});
+           app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
+           {
+               ClientId = "541877724665-giofts2h0vqr48kt6ff1m8h1ec21vp8k.apps.googleusercontent.com",
+               ClientSecret = "HAoZQiDT2n4YrrYc9dUxEJJ-"
+           });
         }
     }
 }
