@@ -15,5 +15,7 @@ namespace is402project2.Models
         public string question { get; set; }
         public string answer { get; set; }
 
+        public int programID { get; set; }
+
     }
 }

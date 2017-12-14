@@ -1,6 +1,11 @@
-﻿using System;
+﻿using is402project2.DAL;
+using is402project2.Models;
+using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 
@@ -8,50 +13,117 @@ namespace is402project2.Controllers
 {
     public class ProgramController : Controller
     {
+        SFCCContext db = new SFCCContext();
+
         // GET: Program
         public ActionResult Program()
         {
-            List<SelectListItem> programList = new List<SelectListItem>();
-            //adds the programs to the programList
-            //In future it can grab from the model instead of hard coding
-            programList.Add(new SelectListItem { Text = "Music", Value = "1" });
-            programList.Add(new SelectListItem { Text = "Personal Finance", Value = "2" });
-            programList.Add(new SelectListItem { Text = "Zumba", Value = "3" });
+            //IEnumerable<program> programs = db.Database.SqlQuery<program>("SELECT programName, programID, programDay, programTime, participantAge, programDescription, volunteerID, internID FROM program");
 
-            //ViewModel viewModel = new ViewModel();
-            ViewBag.ProgramList = programList;
+            var programs = db.Programs;
 
-            return View();
+            return View(programs.ToList());
         }
 
-        public ActionResult ProgramView(string ProgramList)
+        public ActionResult ProgramView(int id)
         {
-            if (ProgramList.Equals("1"))
-            {
-                ViewBag.ProName = "Music";
-                ViewBag.InternName = "Jessica Keele";
-                ViewBag.AgeGroup = "All Ages";
-                ViewBag.WeekdayTime = "Specfic to Class - Contact for Details";
-                ViewBag.ProDesc = "Come learn to play an instrument! We have a variety of classes for all levels of students.";
-            }
-            else if (ProgramList.Equals("2"))
-            {
-                ViewBag.ProName = "Personal Finance";
-                ViewBag.InternName = "Tom Sawyer";
-                ViewBag.AgeGroup = "Adults";
-                ViewBag.WeekdayTime = "Saturdays at 10:00AM";
-                ViewBag.ProDesc = "Do you need help with your fianances? Come to our personal finance class and get help planning your life.";
-            }
-            else if (ProgramList.Equals("3"))
-            {
-                ViewBag.ProName = "Zumba";
-                ViewBag.InternName = "Casandra Ramirez";
-                ViewBag.AgeGroup = "Adults";
-                ViewBag.WeekdayTime = "Tuesdays at 7:00AM";
-                ViewBag.ProDesc = "Get up and DANCE! If you need a great time and a way to get moving, come dance with us!";
-            }
+            //How do I change this so it passes as an IEnumerable??????
 
+            programQuestions ProgramQuestions = new programQuestions();
+
+            ProgramQuestions.Program = db.Programs.Find(id);
+
+            //List<programQuestions> collection = new List<programQuestions>((IEnumerable<programQuestions>)ProgramQuestions);
+
+            //string SQLStatment = "SELECT programName, programID, programDay, programTime, participantAge, programDescription, volunteerID, internID FROM program WHERE programID = '" + id + "'";
+
+            //IEnumerable<programQuestions> ProgramQuestions = db.Database.SqlQuery<programQuestions>("SELECT programName, programID, programDay, programTime, participantAge, programDescription, volunteerID, internID, internFirstName, internLastName FROM program WHERE programID = '" + id + "'");
+
+            ViewBag.Name = ProgramQuestions.Program.programName;
+            ViewBag.WeekdayTime = ProgramQuestions.Program.programDay;
+            ViewBag.AgeGroup = ProgramQuestions.Program.participantAge;
+            ViewBag.Description = ProgramQuestions.Program.programDescription;
+            //ViewBag.InternName = ProgramQuestions.Intern.internFirstName + ' ' + ProgramQuestions.Intern.internLastName;
+
+            return View(ProgramQuestions);
+        }
+
+        public ActionResult FandQ(int id)
+        {
+            programQuestions FAQ = new programQuestions();
+
+            FAQ.Program = db.Programs.Find(id);
+            FAQ.Intern = db.Interns.ToList();
+            FAQ.Questions = db.Question.ToList();
+            FAQ.Volunteer = db.Volunteers.ToList();
+
+            ViewBag.ID = id;
+            //IEnumerable<programQuestions> ProgramQuestions = db.Database.SqlQuery<programQuestions>("SELECT programName, programID, programDay, programTime, participantAge, programDescription, volunteerID, internID, internFirstName, internLastName FROM program WHERE programID = '" + id + "'");
+
+            return View(FAQ);
+        }
+
+        //This is the handle editing the questions and responses????
+
+        // GET: questions/Create
+        public ActionResult Create()
+        {
             return View();
         }
+
+        // POST: questions/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create([Bind(Include = "questionID,question,answer,programID")] questions questions)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Question.Add(questions);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
+            return View(questions);
+        }
+
+        // GET: questions/Edit/5
+        public ActionResult Edit(string answer)
+        {
+            //if (answer == null)
+            //{
+
+            //}
+
+            questions questions = db.Database.SqlQuery<questions>("SELECT questionID, question, answer, programID FROM questions WHERE answer = '" + answer + "'").FirstOrDefault();
+
+            //if (questions == null)
+            //{
+            //    return HttpNotFound();()
+            //}
+            return View(questions);
+        }
+
+        // POST: questions/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit([Bind(Include = "questionID,question,answer,programID")] questions questions)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(questions).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View(questions);
+        }
+
+
+        //programquestion model
+        //{
+        //}
     }
 }

@@ -1,0 +1,55 @@
+﻿@model is402project2.Models.programQuestions
+
+@*@{ is402project2.Models.programQuestions questions = new is402project2.Models.programQuestions();
+
+}*@
+
+@{
+    ViewBag.Title = "FandQ";
+}
+
+<h2>FAQ for @Model.Program.programName </h2>
+
+<hr />
+
+<!--Form for Questions and Responses-->
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-lg-12" align="center">
+        <br /><br />
+        <h2>Questions or Concerns?</h2>
+        <h3>Add a questions to the list below and someone will reply. Thanks!</h3>
+    </div>
+</div>
+
+<!-- FAQ -->
+<div>
+        <ul>
+            @foreach (var item in Model.Questions)
+            {
+                if (ViewBag.ID == item.programID)
+                {
+                <li>
+                    <button class="accordion" style="background-color:#9b8468; opacity:0.7"> @item.question</button>
+                    <div class="panel">
+                        <p>@item.answer</p>
+                    </div>
+                </li>
+
+                @Html.ActionLink("Edit or Add Answer", "Edit", "Program", new { answer = item.answer.ToString() }, new { @class = "btn btn-primary"} );
+                }
+
+                //Needs an edit button for the answer and a insert to add that anwser back into the table.
+
+            }
+        </ul>
+    </div>
+
+<p>
+    @Html.ActionLink("Add New Question", "Create", "Program", new { id = Model.Program.programID }, new { @class = "btn btn-primary" });
+</p>
+
+@*Needs to have a create button that can take the user to a new view to add a question that is then added to the table and then takes them back to this view. *@
+
+
+
+
