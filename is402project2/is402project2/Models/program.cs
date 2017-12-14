@@ -19,8 +19,11 @@ namespace is402project2.Models
         public string programDescription { get; set; }
 
         [ForeignKey("volunteer")]
-        public int volunteerID { get; set; }
+        public virtual int? volunteerID { get; set; }
+        public virtual volunteer volunteer { get; set; }
+
         [ForeignKey("intern")]
-        public int internID { get; set; }
+        public virtual int? internID { get; set; }
+        public virtual intern intern { get; set; }
     }
 }

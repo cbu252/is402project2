@@ -9,12 +9,11 @@ namespace is402project2.Models
 {
     [Table("volunteer")]
     public class volunteer
-        {
-            [Key]
-            public int volunteerID { get; set; }
-            public String volunteerFirstName { get; set; }
-            public String volunteerLastName { get; set; }
+    {
+        [Key]
+        public int volunteerID { get; set; }
+        public String volunteerFirstName { get; set; }
+        public String volunteerLastName { get; set; }
 
-        }
     }
 }
