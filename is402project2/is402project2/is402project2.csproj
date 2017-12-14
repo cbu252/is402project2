@@ -193,6 +193,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ProgramController.cs" />
+    <Compile Include="Controllers\questionsController.cs" />
     <Compile Include="DAL\SFCCContext.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -202,6 +203,7 @@
     <Compile Include="Models\intern.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\program.cs" />
+    <Compile Include="Models\programQuestions.cs" />
     <Compile Include="Models\questions.cs" />
     <Compile Include="Models\volunteer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -279,6 +281,14 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Program\Program.cshtml" />
     <Content Include="Views\Program\ProgramView.cshtml" />
+    <Content Include="Views\questions\Create.cshtml" />
+    <Content Include="Views\questions\Delete.cshtml" />
+    <Content Include="Views\questions\Details.cshtml" />
+    <Content Include="Views\questions\Edit.cshtml" />
+    <Content Include="Views\questions\Index.cshtml" />
+    <Content Include="Views\Program\Create.cshtml" />
+    <Content Include="Views\Program\Edit.cshtml" />
+    <Content Include="Views\Program\FandQ.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
