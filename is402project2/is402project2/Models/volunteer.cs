@@ -16,5 +16,4 @@ namespace is402project2.Models
             public String volunteerLastName { get; set; }
 
         }
-    }
 }
