@@ -1,0 +1,29 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Web;
+
+namespace is402project2.Models
+{
+    [Table("program")]
+    public class program
+    {
+        [Key]
+        public int programID { get; set; }
+        public string programName { get; set; }
+        public string programDay { get; set; }
+        public string programTime { get; set; }
+        public string participantAge { get; set; }
+        public string programDescription { get; set; }
+
+        [ForeignKey("volunteer")]
+        public virtual int? volunteerID { get; set; }
+        public virtual volunteer volunteer { get; set; }
+
+        [ForeignKey("intern")]
+        public virtual int? internID { get; set; }
+        public virtual intern intern { get; set; }
+    }
+}
