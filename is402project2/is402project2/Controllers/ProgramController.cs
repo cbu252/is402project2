@@ -8,6 +8,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 
 namespace is402project2.Controllers
 {
@@ -15,29 +16,22 @@ namespace is402project2.Controllers
     {
         SFCCContext db = new SFCCContext();
 
+        //This will get the programs information and pass it to the view in a list. 
         // GET: Program
         public ActionResult Program()
         {
-            //IEnumerable<program> programs = db.Database.SqlQuery<program>("SELECT programName, programID, programDay, programTime, participantAge, programDescription, volunteerID, internID FROM program");
-
             var programs = db.Programs;
 
             return View(programs.ToList());
         }
 
+
+        //This will go to the program view and view that programs info and allow you to access the FAQ page.
         public ActionResult ProgramView(int id)
         {
-            //How do I change this so it passes as an IEnumerable??????
-
             programQuestions ProgramQuestions = new programQuestions();
 
             ProgramQuestions.Program = db.Programs.Find(id);
-
-            //List<programQuestions> collection = new List<programQuestions>((IEnumerable<programQuestions>)ProgramQuestions);
-
-            //string SQLStatment = "SELECT programName, programID, programDay, programTime, participantAge, programDescription, volunteerID, internID FROM program WHERE programID = '" + id + "'";
-
-            //IEnumerable<programQuestions> ProgramQuestions = db.Database.SqlQuery<programQuestions>("SELECT programName, programID, programDay, programTime, participantAge, programDescription, volunteerID, internID, internFirstName, internLastName FROM program WHERE programID = '" + id + "'");
 
             ViewBag.Name = ProgramQuestions.Program.programName;
             ViewBag.WeekdayTime = ProgramQuestions.Program.programDay;
@@ -48,6 +42,9 @@ namespace is402project2.Controllers
             return View(ProgramQuestions);
         }
 
+
+        //This will allows the user to view the FAQ page.... I know I called it FandQ..... it was 1:30am... :) 
+        [Authorize] //This will make it so the user must be authorized/logged in with google to access this page
         public ActionResult FandQ(int id)
         {
             programQuestions FAQ = new programQuestions();
@@ -58,72 +55,70 @@ namespace is402project2.Controllers
             FAQ.Volunteer = db.Volunteers.ToList();
 
             ViewBag.ID = id;
-            //IEnumerable<programQuestions> ProgramQuestions = db.Database.SqlQuery<programQuestions>("SELECT programName, programID, programDay, programTime, participantAge, programDescription, volunteerID, internID, internFirstName, internLastName FROM program WHERE programID = '" + id + "'");
-
+           
             return View(FAQ);
         }
-
-        //This is the handle editing the questions and responses????
-
+  
+        //This is the handle adding new questions to the model
         // GET: questions/Create
-        public ActionResult Create()
+        public ActionResult Create(int progid, int questionid)
         {
-            return View();
+            int iNumQuestion = questionid + 1;
+            int iNumProgram = progid;
+
+            db.Database.ExecuteSqlCommand("INSERT INTO questions (questionID, programID) VALUES (" + iNumQuestion + ", " + progid + ")");
+
+            questions newquestion = db.Database.SqlQuery <questions>("SELECT questionID, question, answer, programID FROM questions WHERE questionID = " + iNumQuestion + " AND programID = " + iNumProgram +"").FirstOrDefault();
+
+            return View(newquestion);
+
         }
 
+        //This will post the new questions
         // POST: questions/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "questionID,question,answer,programID")] questions questions)
+        public ActionResult Create([Bind(Include = "answer,programID,question,questionID")] questions questions)
         {
             if (ModelState.IsValid)
             {
                 db.Question.Add(questions);
+                db.Database.ExecuteSqlCommand("INSERT INTO questions (questionID, question, answer, programID) VALUES (" + questions.questionID + ", '" + questions.question + "', '" +questions.answer + "', " + questions.programID +")");
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("FandQ/" + questions.programID);
             }
 
             return View(questions);
         }
 
+        //This will allow the user to edit a question. 
         // GET: questions/Edit/5
-        public ActionResult Edit(string answer)
-        {
-            //if (answer == null)
-            //{
+        public ActionResult Edit(string question)
+        { 
+            questions questions = db.Database.SqlQuery<questions>("SELECT questionID, question, answer, programID FROM questions WHERE question = '" + question + "'").FirstOrDefault();
 
-            //}
-
-            questions questions = db.Database.SqlQuery<questions>("SELECT questionID, question, answer, programID FROM questions WHERE answer = '" + answer + "'").FirstOrDefault();
-
-            //if (questions == null)
-            //{
-            //    return HttpNotFound();()
-            //}
             return View(questions);
         }
 
+
+        //This will get the information from the inputed answer and put it into the database, then return the user to the FAQ page. 
         // POST: questions/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "questionID,question,answer,programID")] questions questions)
+        public ActionResult Edit([Bind(Include = "questionID,question,answer,programID")]questions questions)
         {
             if (ModelState.IsValid)
             {
+                //string anwser = Request.Form("answer");
                 db.Entry(questions).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("FandQ/" + questions.programID);
             }
             return View(questions);
         }
-
-
-        //programquestion model
-        //{
-        //}
     }
 }
